@@ -1,0 +1,37 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t darekb/complex-client-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run darekb/complex-client-test npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+
+after_success:
+  - docker build -t darekb/complex-client ./client
+  - docker build -t darekb/complex-nginx ./nginx
+  - docker build -t darekb/complex-server ./server
+  - docker build -t darekb/complex-worker ./worker
+  #log in to docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  #Take those images and push its to docker hub
+  - docker push darekb/complex-client
+  - docker push darekb/complex-nginx
+  - docker push darekb/complex-server
+  - docker push darekb/complex-worker
+
+# delpoy:
+#   provider: elasticbeanstalk
+#   region: "us-east-2"
+#   app: "docker_angular"
+#   env: "DockerAngular-env-1"
+#   bucket_name: "elasticbeanstalk-us-east-2-390479801524"
+#   bucket_path: "docker_angular"
+#   on:
+#     branch: master
+#   access_key_id: $AWS_ACCESS_KEY
+#   secret_access_key: $AWS_SECRET_KEY
+
+
+

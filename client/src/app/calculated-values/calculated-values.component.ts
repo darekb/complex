@@ -11,6 +11,7 @@ export class CalculatedValuesComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  	let test = 'true';
   }
 
 }
