@@ -3,23 +3,23 @@ services:
   - docker
 
 before_install:
-  - docker build -t darekb/complex-client-test -f ./client/Dockerfile.dev ./client
+  - docker build -t dj0b/complex-client-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run darekb/complex-client-test npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+  - docker run dj0b/complex-client-test npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 
 after_success:
-  - docker build -t darekb/complex-client ./client
-  - docker build -t darekb/complex-nginx ./nginx
-  - docker build -t darekb/complex-server ./server
-  - docker build -t darekb/complex-worker ./worker
+  - docker build -t dj0b/complex-client ./client
+  - docker build -t dj0b/complex-nginx ./nginx
+  - docker build -t dj0b/complex-server ./server
+  - docker build -t dj0b/complex-worker ./worker
   #log in to docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   #Take those images and push its to docker hub
-  - docker push darekb/complex-client
-  - docker push darekb/complex-nginx
-  - docker push darekb/complex-server
-  - docker push darekb/complex-worker
+  - docker push dj0b/complex-client
+  - docker push dj0b/complex-nginx
+  - docker push dj0b/complex-server
+  - docker push dj0b/complex-worker
 
 # delpoy:
 #   provider: elasticbeanstalk
