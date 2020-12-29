@@ -4,7 +4,7 @@ RUN npm install -g @angular/cli
 COPY package.json ./
 RUN npm install
 COPY ./ ./
-CMD ["ng","build","--prod"]
+RUN npm run build --prod
 
 
 FROM nginx:alpine
